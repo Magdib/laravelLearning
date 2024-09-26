@@ -8,7 +8,6 @@ use App\Models\Customers;
 class CustomersController extends Controller
 {
     public function index(){
-        //Fetching all Customers instead of active or inactive
         $customers = Customers::all();
         return view('customers.index',compact('customers',));
     }
@@ -23,4 +22,7 @@ class CustomersController extends Controller
         return redirect('customers');
     }
 
+    public function show(Customers $customer){
+    return view('customers.show', compact('customer'));
+    }
 }
