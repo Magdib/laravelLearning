@@ -7,18 +7,20 @@ use Illuminate\Http\Request;
 use App\Models\Customers;
 class CustomersController extends Controller
 {
-    public function list(){
-        $activeCustomers = Customers::active()->get();
-        $inactiveCustomers = Customers::inactive()->get();
+    public function index(){
+        //Fetching all Customers instead of active or inactive
+        $customers = Customers::all();
+        return view('customers.index',compact('customers',));
+    }
+    public function create(){
         $companies = Company::all();
-        // $customers = ["test","test2","test3"];
-        return view('customers',compact('activeCustomers','inactiveCustomers','companies'));
+        return view('customers.create',compact('companies'));
     }
     public function store()
     {
         $data= request()->validate(['name' => 'required|min:3','email'=>'required|email','active'=>'required','company_id'=>'required']);
         Customers::create($data);
-        return back();
+        return redirect('customers');
     }
 
 }

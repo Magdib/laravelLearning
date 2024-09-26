@@ -5,7 +5,8 @@ use App\Http\Controllers\CustomersController;
 Route::view('/' , 'welcome' );
 Route::view('contact' , 'contact' );
 Route::view('about' , 'about' );
-Route::get('customers',[CustomersController::class,'list']);
+Route::get('customers',[CustomersController::class,'index']);
+Route::get('customers/create',[CustomersController::class,'create']);
 Route::post('customers',[CustomersController::class,'store']);
 
 
