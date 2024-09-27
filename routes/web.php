@@ -5,9 +5,7 @@ use App\Http\Controllers\CustomersController;
 Route::view('/' , 'welcome' );
 Route::view('contact' , 'contact' );
 Route::view('about' , 'about' );
-Route::get('customers',[CustomersController::class,'index']);
-Route::get('customers/create',[CustomersController::class,'create']);
-Route::post('customers',[CustomersController::class,'store']);
-Route::get('customers/{customer}',[CustomersController::class,'show']);
-Route::get('customers/{customer}/edit',[CustomersController::class,'edit']);
-Route::put('customers/{customer}',[CustomersController::class,'update']);
+//We Can Replace Every one of above actions with this:
+Route::resource('customers', CustomersController::class);
+//Remember to use this to create controller
+// php artisan make:controller TestController -r -m Customers
