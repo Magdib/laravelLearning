@@ -13,16 +13,34 @@ class CustomersController extends Controller
     }
     public function create(){
         $companies = Company::all();
-        return view('customers.create',compact('companies'));
+        $customer = new Customers();
+        return view('customers.create',compact('companies','customer'));
     }
     public function store()
     {
-        $data= request()->validate(['name' => 'required|min:3','email'=>'required|email','active'=>'required','company_id'=>'required']);
-        Customers::create($data);
+        Customers::create($this->validateRequest());
         return redirect('customers');
     }
 
     public function show(Customers $customer){
     return view('customers.show', compact('customer'));
     }
+
+    public function edit(Customers $customer){
+        $companies = Company::all();
+        return view('customers.edit', compact('customer','companies'));
+    }
+
+    public function update(Customers $customer){
+    $customer->update($this->validateRequest());
+        
+        return redirect('customers/'.$customer->id);
+    }
+    
+public function validateRequest(){
+    return  request()->validate(['name' => 'required|min:3',
+    'email'=>'required|email',
+    'active'=>'required',
+    'company_id'=>'required']);
+}
 }

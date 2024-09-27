@@ -9,11 +9,16 @@ class Customers extends Model
 {
    
     protected $guarded = [];
-
-    public function getActiveAttribute($attribute){
-return [0=>'Inactive',1=>'Active'][$attribute];
+   
+    ///////////////////////////////////////////////
+    protected $attributes = ['active'=>1];
+    ////////////////////////////////////////////////////
+    public function getActiveAttribute($attributes){
+return $this->activeOptions()[$attributes];
     }
-
+public function activeOptions(){
+    return [1=>'Active',0=>'Inactive',];
+}
 public function scopeActive($query){
     return $query->where('active',1);
 }
