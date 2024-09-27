@@ -2,10 +2,9 @@
 
 // use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\ContactFormController;
 Route::view('/' , 'welcome' );
-Route::view('contact' , 'contact' );
 Route::view('about' , 'about' );
-//We Can Replace Every one of above actions with this:
 Route::resource('customers', CustomersController::class);
-//Remember to use this to create controller
-// php artisan make:controller TestController -r -m Customers
+Route::get('contact',[ContactFormController::class,'create']);
+Route::post('contact',[ContactFormController::class,'store']);
