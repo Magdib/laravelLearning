@@ -17,6 +17,6 @@ class ContactFormController extends Controller
         'message'=>'required',]);
 
         Mail::to('test@gmail.com')->send(new ContactFromMail($data));
-        return redirect('contact');
+        return redirect('contact')->with('message','Thanks for your message. We\'ll be in touch.');
     }
 }
