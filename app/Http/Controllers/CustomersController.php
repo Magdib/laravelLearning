@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\Customers;
 class CustomersController extends Controller
 {
+    public function __construct()
+    {
+    //Form 1
+        //   $this->middleware('auth');
+    // Form 2
+            // $this->middleware('auth')->except(['index']);
+    //Form 3
+            $this->middleware('auth')->only(['edit']);
+    }
     public function index(){
         $customers = Customers::all();
         return view('customers.index',compact('customers',));
