@@ -10,11 +10,11 @@ class CustomersController extends Controller
     public function __construct()
     {
     //Form 1
-        //   $this->middleware('auth');
-    // Form 2
+          $this->middleware('auth');
+    //Form 2
             // $this->middleware('auth')->except(['index']);
     //Form 3
-            $this->middleware('auth')->only(['edit']);
+            // $this->middleware('auth')->only(['index']);
     }
     public function index(){
         $customers = Customers::all();
