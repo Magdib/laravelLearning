@@ -10,7 +10,8 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <form action="/customers/{{ $customer->id }}" method="POST">
+            {{-- Please Notic that customer parameter here is same to the one on the routes file goes by customers/{customer} --}}
+            <form action="{{ route('cutomers.update', ['customer' => $customer]) }}" method="POST">
                 @method('PUT')
                 @include('customers.form')
                 <button type="submit" class ='btn btn-primary'>Edit Customer</button>
