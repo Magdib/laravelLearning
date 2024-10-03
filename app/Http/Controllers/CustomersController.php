@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewCustomerHasRegisteredEvent;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\Customers;
+use App\Mail\WelcomeNewUserMail;
+use Illuminate\Support\Facades\Mail;
 class CustomersController extends Controller
 {
     public function __construct()
     {
-    //Form 1
-          $this->middleware('auth');
-    //Form 2
-            // $this->middleware('auth')->except(['index']);
-    //Form 3
-            // $this->middleware('auth')->only(['index']);
+            $this->middleware('auth')->except(['index']);
     }
     public function index(){
         $customers = Customers::all();
@@ -25,10 +23,12 @@ class CustomersController extends Controller
         $customer = new Customers();
         return view('customers.create',compact('companies','customer'));
     }
+
     public function store()
     {
-        Customers::create($this->validateRequest());
-        return redirect('customers');
+     $customer =   Customers::create($this->validateRequest());
+     event(new NewCustomerHasRegisteredEvent($customer)); 
+      return redirect('customers');
     }
 
     public function show(Customers $customer){
