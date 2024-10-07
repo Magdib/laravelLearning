@@ -12,3 +12,4 @@ Route::get('contact',[ContactFormController::class,'create'])->name('contact.cre
 Route::post('contact',[ContactFormController::class,'store'])->name('contact.store');
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+//php artisan storage:link

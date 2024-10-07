@@ -21,4 +21,11 @@
             </form>
         </div>
     </div>
+    @if ($customer->image)
+        <div class="row">
+            <div class="col-12">
+                <img src="{{ asset('storage/' . $customer->image) }}" alt="" class="img-thumbnail">
+            </div>
+        </div>
+    @endif
 @endsection

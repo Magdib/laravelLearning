@@ -10,7 +10,8 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <form action="/customers" method="POST">
+            {{-- Important Multipart --}}
+            <form action="/customers" method="POST" enctype="multipart/form-data">
                 @include('customers.form')
                 <button type="submit" class ='btn btn-primary'>Add Customer</button>
             </form>
