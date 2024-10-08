@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Customers;
 use App\Mail\WelcomeNewUserMail;
 use Illuminate\Support\Facades\Mail;
+use Intervention\Image\ImageManager;
 class CustomersController extends Controller
 {
     public function __construct()
@@ -51,21 +52,18 @@ class CustomersController extends Controller
         return redirect('customers');
     }
 public function validateRequest(){
-
-    return tap(request()->validate(['name' => 'required|min:3',
+    return request()->validate(['name' => 'required|min:3',
     'email'=>'required|email',
     'active'=>'required',
-    'company_id'=>'required']),function (){
-        if(request()->hasFile('image')){
-               request()->validate([
-            'image' =>'file|image|max:5000',
-        ]); 
-        }
-    });
+    'company_id'=>'required',
+    'image' =>'sometimes|file|image|max:5000']);
 }
 private function storeImage($customer){
     if(request()->has('image')){
         $customer->update(['image' => request()->image->store('uploads','public')]);
     }
+    $image = ImageManager::imagick()->read(public_path('storage/'. $customer->image));  
+    $image = $image->resize(250, 250);
+    $image->save();
 }
 }
