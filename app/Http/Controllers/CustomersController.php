@@ -16,8 +16,12 @@ class CustomersController extends Controller
             $this->middleware('auth')->except(['index']);
     }
     public function index(){
-        $customers = Customers::all();
-        return view('customers.index',compact('customers',));
+        //Without Pagination
+        // $customers = Customers::with('company')->get();
+        //With Pagination
+        
+        $customers = Customers::with('company')->paginate(20);
+        return view('customers.index',compact('customers'));
     }
     public function create(){
         $companies = Company::all();
@@ -27,6 +31,7 @@ class CustomersController extends Controller
 
     public function store()
     {
+        $this->authorize('create',Customers::class);
      $customer =   Customers::create($this->validateRequest());
      $this->storeImage($customer);
      event(new NewCustomerHasRegisteredEvent($customer)); 
@@ -48,6 +53,7 @@ class CustomersController extends Controller
         return redirect('customers/'.$customer->id);
     }
     public function destroy(Customers $customer){
+        $this->authorize('delete',$customer);
         $customer->delete();
         return redirect('customers');
     }
@@ -61,9 +67,10 @@ public function validateRequest(){
 private function storeImage($customer){
     if(request()->has('image')){
         $customer->update(['image' => request()->image->store('uploads','public')]);
+        $image = ImageManager::imagick()->read(public_path('storage/'. $customer->image));  
+        $image = $image->resize(250, 250);
+        $image->save();
     }
-    $image = ImageManager::imagick()->read(public_path('storage/'. $customer->image));  
-    $image = $image->resize(250, 250);
-    $image->save();
+    
 }
 }
